@@ -59,6 +59,8 @@ The model was trained on a structured dataset containing [loan applicant informa
 
 ## Local Development
 
+Ensure you have installed Docker and HEROKU CLI
+
 1. **Clone the Repository**
 ```bash
 git clone https://github.com/roissyahf/loan-approval-deploy.git
@@ -72,6 +74,17 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 3. **Install Dependency**
 ```bash
 pip install -r requirements.txt
+```
+
+4. **Set up environment variable using dotenv**
+
+Create `.env` file, then fill in the necessary keys
+
+```bash
+DOCKER_HUB_USERNAME=your_docker_hub_username
+HEROKU_API_KEY=your_heroku_api_key
+HEROKU_APP_NAME=your_heroku_app_name
+HEROKU_EMAIL=your_heroku_email
 ```
 
 ### Run without Docker
