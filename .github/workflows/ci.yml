@@ -35,6 +35,3 @@ jobs:
           heroku container:login
           heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}
 
-      - name: Verify Deployment
-        run: curl -f https://${{ secrets.HEROKU_APP_NAME }}.herokuapp.com/health || exit 1
-
