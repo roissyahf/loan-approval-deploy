@@ -13,9 +13,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Install Heroku CLI
+      - name: Set Heroku stack to container
         run: |
           curl https://cli-assets.heroku.com/install.sh | sh
+          heroku plugins:install heroku-container-registry
+          heroku stack:set container --app ${{ secrets.HEROKU_APP_NAME }}
 
       - name: Build, Push and Release a Docker container to Heroku
         uses: gonuit/heroku-docker-deploy@v1.3.3
