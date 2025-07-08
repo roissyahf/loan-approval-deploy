@@ -1,6 +1,6 @@
 # 🏦 Loan Approval Prediction App
 
-A ML application that predicts loan approval using a trained machine learning model. It utilizes a Flask API for model inference and a Streamlit UI for user interaction, using HEROKU app for quick and simple deployment.
+A ML application that predicts loan approval using a trained machine learning model. It utilizes a Flask API for model inference and HEROKU app for quick and simple deployment.
 
 ---
 
@@ -11,7 +11,7 @@ The goal is to predict whether a loan request will be **accepted** or **rejected
 This project simulates a real-world deployment pipeline by combining:
 - A trained machine learning model (`model.pkl`)
 - REST API for prediction (Flask)
-- Frontend interface (Streamlit)
+- Frontend interface (HTML, CSS, Javascript)
 - Containerized deployment (Docker)
 - CI/CD pipeline (GitHub Actions)
 
@@ -30,7 +30,7 @@ The model was trained on a structured dataset containing [loan applicant informa
 - **Python**
 - **Scikit-learn** – Model training
 - **Flask** – REST API
-- **Streamlit** – Frontend UI
+- **HTML, CSS, Javascript** – Frontend UI
 - **Docker** – Containerization
 - **GitHub Actions** – CI/CD pipeline
 
@@ -89,18 +89,8 @@ HEROKU_EMAIL=your_heroku_email
 
 ### Run without Docker
 
-In two separate terminals:
-
-**Terminal 1: Run Flask API**
-
 ```bash
-python api\server.py
-```
-
-**Terminal 2: Run Streamlit UI**
-
-```bash
-python ui\app.py
+python app.py
 ```
 
 ### Run with Docker (recommended)
@@ -109,4 +99,4 @@ python ui\app.py
 docker-compose up --build
 ```
 
-This will start both the Flask API and Streamlit app in containers. Access the UI at: http://localhost:8501
+This will start both the app in container. Access the UI at: http://localhost:8000

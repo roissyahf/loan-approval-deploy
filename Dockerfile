@@ -1,21 +1,21 @@
-# Use Python base image
 FROM python:3.12-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Set working directory
 WORKDIR /app
 
-# Copy all files
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy all project files into the container
 COPY . .
 
-# Install dependencies
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# Expose the port Heroku will use
+EXPOSE 8000
 
-# Install supervisor
-RUN apt-get update && apt-get install -y supervisor
-
-# Expose Streamlit UI port
-EXPOSE 8501
-
-# Launch both processes via supervisor
-CMD ["/usr/bin/supervisord", "-c", "/app/supervisord.conf"]
+# Run the Flask app
+CMD ["gunicorn", "--bind", "0.0.0.0:$PORT", "app:app"]

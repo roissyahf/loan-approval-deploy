@@ -1,5 +1,5 @@
 import pickle
-from flask import Flask, request, app, jsonify
+from flask import Flask, request, app, jsonify, render_template
 import pandas as pd
 import time
 import os
@@ -28,9 +28,9 @@ except Exception as e:
 # ---------------------
 app = Flask(__name__)
 
-@app.route('/')
+@app.route("/")
 def home():
-    return jsonify(message="Welcome to the Loan Approval Prediction API!"), 200
+    return render_template("index.html") 
 
 @app.route('/health', methods=['GET'])
 def health():
@@ -73,4 +73,5 @@ def predict_api():
 # Run the App
 # ---------------------
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8000, debug=True)
+    port = int(os.environ.get("PORT", 8000))
+    app.run(host='0.0.0.0', port=port)
