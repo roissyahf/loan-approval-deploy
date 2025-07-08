@@ -1,4 +1,4 @@
-name: 🚀 CI - Deploy to Heroku
+name: CI - Deploy to Heroku
 
 on:
   push:
@@ -13,22 +13,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set Heroku stack to container
+      - name: Install Heroku CLI
         run: |
           curl https://cli-assets.heroku.com/install.sh | sh
-          heroku plugins:install heroku-container-registry
-          heroku stack:set container --app ${{ secrets.HEROKU_APP_NAME }}
 
-      - name: Build, Push and Release a Docker container to Heroku
-        uses: gonuit/heroku-docker-deploy@v1.3.3
-        with:
-          email: ${{ secrets.HEROKU_EMAIL }}
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+      - name: Heroku Container Login
+        run: |
+          echo "${{ secrets.HEROKU_API_KEY }}" | heroku auth:token
+          echo "${{ secrets.HEROKU_API_KEY }}" | docker login --username=_ --password-stdin registry.heroku.com
 
-          # Dockerfile directory, located in the root of my project
-          dockerfile_directory: ./
-          dockerfile_name: Dockerfile
+      - name: Build Docker Image
+        run: |
+          docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web .
 
-          # Select the process type for which you want the docker container to be uploaded.
-          process_type: web
+      - name: Push to Heroku Container Registry
+        run: |
+          docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+
+      - name: Release on Heroku
+        run: |
+          heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}
