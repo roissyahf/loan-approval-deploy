@@ -1,4 +1,12 @@
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler, OrdinalEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
 import xgboost
+from xgboost import XGBClassifier
+import numpy as np
+
 import pickle
 from flask import Flask, request, app, jsonify, render_template
 import pandas as pd
