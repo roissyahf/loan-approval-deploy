@@ -1,3 +1,4 @@
+import xgboost
 import pickle
 from flask import Flask, request, app, jsonify, render_template
 import pandas as pd
