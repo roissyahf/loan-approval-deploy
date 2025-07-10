@@ -1,6 +1,8 @@
 # 🏦 Loan Approval Prediction App
 
-A ML application that predicts loan approval using a trained machine learning model. It utilizes a Flask API for model inference and HEROKU app for quick and simple deployment.
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/ee349b93-2bcb-42a6-89bb-6ac09f390917" />
+
+A Machine Learning application that predicts loan approval using a trained machine learning model. It utilizes a Flask API for model inference and HEROKU app for quick and simple deployment.
 
 ---
 
