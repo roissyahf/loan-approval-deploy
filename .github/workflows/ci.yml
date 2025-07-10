@@ -1,37 +1,40 @@
-name: CI - Deploy to Heroku
+name: CI - Deploy to Google Cloud Run
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
-  deploy-to-heroku:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Install Heroku CLI
-        run: curl https://cli-assets.heroku.com/install.sh | sh
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
 
-      - name: Login to Heroku Container Registry
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: |
-          echo "$HEROKU_API_KEY" | docker login --username=_ --password-stdin registry.heroku.com
+    - name: Configure Docker
+      run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
 
-      - name: Build Docker image
-        run: docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web .
+    - name: Build and push Docker image
+      run: |
+        IMAGE=${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REPO }}/${{ secrets.CLOUD_RUN_SERVICE }}
+        docker build -t $IMAGE .
+        docker push $IMAGE
 
-      - name: Push Docker image to Heroku
-        run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-
-      - name: Release on Heroku
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: |
-          heroku container:login
-          heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}
-
+    - name: Deploy to Cloud Run
+      run: |
+        IMAGE=${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REPO }}/${{ secrets.CLOUD_RUN_SERVICE }}
+        gcloud run deploy ${{ secrets.CLOUD_RUN_SERVICE }} \
+          --image=$IMAGE \
+          --platform=managed \
+          --region=${{ secrets.GCP_REGION }} \
+          --allow-unauthenticated \
+          --quiet

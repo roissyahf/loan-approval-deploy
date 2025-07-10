@@ -1,6 +1,6 @@
 # 🏦 Loan Approval Prediction App
 
-A ML application that predicts loan approval using a trained machine learning model. It utilizes a Flask API for model inference and HEROKU app for quick and simple deployment.
+A ML application that predicts loan approval using a trained machine learning model. It utilizes a Flask API for model inference and Google Cloud Platform (Artifacts Registry, Cloud Run) for production deployment.
 
 ---
 
@@ -49,7 +49,7 @@ The model was trained on a structured dataset containing [loan applicant informa
 **The project includes a GitHub Actions workflow that:**
 1. Lints Python code
 2. Builds Docker image
-3. Deploys to a target environment (Heroku)
+3. Deploys to a target environment (Cloud Run)
 
 **To enable CI/CD:**
 1. Push code to GitHub
@@ -59,7 +59,7 @@ The model was trained on a structured dataset containing [loan applicant informa
 
 ## Local Development
 
-Ensure you have installed Docker and HEROKU CLI
+Ensure you have installed Docker & Google Cloud CLI 
 
 1. **Clone the Repository**
 ```bash
@@ -76,17 +76,6 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. **Set up environment variable using dotenv**
-
-Create `.env` file, then fill in the necessary keys
-
-```bash
-DOCKER_HUB_USERNAME=your_docker_hub_username
-HEROKU_API_KEY=your_heroku_api_key
-HEROKU_APP_NAME=your_heroku_app_name
-HEROKU_EMAIL=your_heroku_email
-```
-
 ### Run without Docker
 
 ```bash
@@ -99,4 +88,4 @@ python app.py
 docker-compose up --build
 ```
 
-This will start both the app in container. Access the UI at: http://localhost:8000
+This will start both the app in container. Access the UI at: http://127.0.0.1:8080
