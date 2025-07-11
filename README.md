@@ -1,5 +1,7 @@
 # 🏦 Loan Approval Prediction App
 
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/25d93efa-64a0-4290-ad39-bd930d9541b8" />
+
 A ML application that predicts loan approval using a trained machine learning model. It utilizes a Flask API for model inference and Google Cloud Platform (Artifacts Registry, Cloud Run) for production deployment.
 
 ---
